@@ -24,7 +24,7 @@ class AlunniController
 
   public function create(Request $request, Response $response, $args){
     $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
-    $result = $mysqli_connection->query("SELECT * FROM alunni WHERE id=" . $args["id"]);
+    $result = $mysqli_connection->query("INSERT INTO 'alunni' ('id', 'nome', 'cognome') VALUES ($args["id"], $args["nome"], $args["cognome"])");
     $results = $result->fetch_all(MYSQLI_ASSOC);
 
     $response->getBody()->write(json_encode($results));
