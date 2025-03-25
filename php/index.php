@@ -7,9 +7,9 @@ require __DIR__ . '/controllers/AlunniController.php';
 $app = AppFactory::create();
 
 $app->get('/alunni', "AlunniController:index");
-$app->get('/alunni/{id}', "AlunniController:view");
+$app->get('/alunni/{id:\d+}', "AlunniController:view");
 $app->post('/alunni', "AlunniController:create");
-$app->put('/alunni/{id}', "AlunniController:update");
+$app->put('/alunni', "AlunniController:update");
 $app->delete('/alunni[/{id}]', "AlunniController:destroy");
 
 
