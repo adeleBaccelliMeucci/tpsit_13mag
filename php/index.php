@@ -14,3 +14,4 @@ $app->delete('/alunni[/{id}]', "AlunniController:destroy");
 
 
 $app->run();
+?>
