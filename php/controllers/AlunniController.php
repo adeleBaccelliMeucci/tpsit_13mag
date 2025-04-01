@@ -67,5 +67,45 @@ class AlunniController{
     $response->getBody()->write(json_encode($results));
     return $response->withHeader("Content-type", "application/json")->withStatus(200);
   }
+
+  public function sort(Request $request, Response $response, $args){
+    /*
+    $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
+    $result = $mysqli_connection->query("DESCRIBE alunni");
+    $results = $result->fetch_all(MYSQLI_ASSOC);
+    var_dump($results->fetch_all(MYSQLI_ASS));
+    $response->getBody()->write(json_encode($results));
+    return $response->withHeader("Content-type", "application/json")->withStatus(200);
+    */
+
+    $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
+    $db = Db::getInstance();
+    //$results = $mysqli_connection->query("DESCRIBE alunni");
+    $results = $db->query("DESCRIBE alunni"); //
+    //$results = $result->fetch_all(MYSQLI_ASSOC);
+
+    $found = false;
+
+    $columns = $results->fetch_all(MYSQLI_ASSOC);
+    foreach ($columns as $col) {
+      if($col['Field'] == $args["col"]) {
+        $found = true;
+        break;
+      }
+    }
+
+    if(!$found){
+      $response->getBody()->write(json_encode(["msg" => "colonna non trovata"]));
+      return $response->withHeader("Content-type", "application/json")->withStatus(404);
+    }
+    /* */
+    $order = isset($args["order"])?$args["order"]:"ASC";
+    $result = $db->query("SELECT * FROM alunni ORDER BY " . $args["col"] . " $order");
+    $results = $result->fetch_all(MYSQLI_ASSOC);
+
+    $response->getBody()->write(json_encode($results));
+    return $response->withHeader("Content-type", "application/json")->withStatus(200);
+
+  }
 }
 ?>
