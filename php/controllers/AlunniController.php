@@ -2,8 +2,9 @@
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
-class AlunniController
-{
+class AlunniController{
+
+
   //get di tutti
   public function index(Request $request, Response $response, $args){
     $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
@@ -54,6 +55,16 @@ class AlunniController
     $stmt->execute();
 
     $response->getBody()->write("+1 KILL");
+    return $response->withHeader("Content-type", "application/json")->withStatus(200);
+  }
+
+  //get con almeno 3 lettere nome o cognome
+  public function search(Request $request, Response $response, $args){
+    $mysqli_connection = new MySQLi('my_mariadb', 'root', 'ciccio', 'scuola');
+    $result = $mysqli_connection->query('SELECT * FROM alunni WHERE nome like "%' . $args["lettere"] .'%"' . 'OR cognome like "%' . $args["lettere"] .'%"');
+    $results = $result->fetch_all(MYSQLI_ASSOC);
+
+    $response->getBody()->write(json_encode($results));
     return $response->withHeader("Content-type", "application/json")->withStatus(200);
   }
 }

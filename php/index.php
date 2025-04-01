@@ -12,6 +12,7 @@ $app->post('/alunni', "AlunniController:create");
 $app->put('/alunni', "AlunniController:update");
 $app->delete('/alunni', "AlunniController:destroy");
 
+$app->get('/alunni/search/{lettere:\w+}', "AlunniController:search"); //ricerca
 
 $app->run();
 ?>
