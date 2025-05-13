@@ -11,11 +11,12 @@ $app = AppFactory::create();
 $app->get('/alunni', "AlunniController:index");
 //curl http://localhost:8080/alunni/2
 $app->get('/alunni/{id:\d+}', "AlunniController:view");
-//curl -X POST http://localhost:8080/alunni -d '{"nome":"petro", "" }' -H "Content-Type: application/json"
+//curl -X POST http://localhost:8080/alunni -d '{"nome":"petro", "cognome":"fonda" }' -H "Content-Type: application/json"
 $app->post('/alunni', "AlunniController:create");
 $app->put('/alunni', "AlunniController:update"); //id?
-// curl -X delete ...
-$app->delete('/alunni', "AlunniController:destroy"); //id?
+// curl -X DELETE http://localhost:8080/alunni/1
+//$app->delete('/alunni', "AlunniController:destroy"); //id?
+$app->delete('/alunni/{id}', "AlunniController:destroy");
 
 $app->get('/alunni/search/{lettere:\w+}', "AlunniController:search"); //ricerca
 
