@@ -45,8 +45,6 @@ function App() {
       return;      
     }
 
-
-    //curl -X http://localhost:8080/alunni 
     const  data = await fetch("http://localhost:8080/alunni", {
       method: "POST",
       headers:{"Content-Type": "application/json"},
